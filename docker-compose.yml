@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
 
-  # ── BASE DE DATOS PRINCIPAL ──────────────────────────────────
+
   mysql_principal:
     container_name: mysql_principal
     image: mysql:8.0
@@ -19,7 +19,7 @@ services:
     volumes:
       - principal_datos:/var/lib/mysql
 
-  # ── BASE DE DATOS SECUNDARIA ──────────────────────────────────
+
   mysql_secundario:
     container_name: mysql_secundario
     image: mysql:8.0
@@ -39,7 +39,7 @@ services:
     depends_on:
       - mysql_principal
 
-  # ── NODO 1 DE APLICACIÓN → conectado a la BD Principal ────────
+
   nodo1:
     container_name: nodo1
     build: .
@@ -49,7 +49,7 @@ services:
     depends_on:
       - mysql_principal
 
-  # ── NODO 2 DE APLICACIÓN → conectado a la BD Secundaria ───────
+
   nodo2:
     container_name: nodo2
     build: .
@@ -59,7 +59,7 @@ services:
     depends_on:
       - mysql_secundario
 
-  # ── BALANCEADOR DE CARGA NGINX ──────────────────────────────────
+
   nginx:
     container_name: nginx_balancer
     image: nginx:alpine
@@ -71,7 +71,7 @@ services:
       - nodo1
       - nodo2
 
-  # ── GESTOR phpMyAdmin ───────────────────────────────────────────
+
   phpmyadmin:
     container_name: phpmyadmin
     image: phpmyadmin:latest
